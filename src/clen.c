@@ -407,7 +407,7 @@ int main(int argc, char *argv[]) {
             i - firstArgIndex + 1,
             preview,
             processTime,
-            isFile ? " (Path On System)" : ""
+            isFile ? " (File)" : ""
         );
         printf("    - %zu (Length)\n", length);
 

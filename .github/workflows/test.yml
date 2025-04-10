@@ -68,7 +68,7 @@ jobs:
     - name: Test --count-filecontent
       run: |
         ./clen --count-filecontent test_input.txt > output.txt
-        grep -q "(file)" output.txt
+        grep -q "(File)" output.txt
         grep -q "$(wc -c < test_input.txt | tr -d '[:space:]')" output.txt
 
     - name: Full-feature integration test
