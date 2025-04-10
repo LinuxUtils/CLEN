@@ -8,7 +8,7 @@
 `git clone git@github.com:g7gg/CLEN.git`
 
 ### 2. Build
-`cd CLEN && gcc -O3 -o clen clen.c`
+`cd CLEN && gcc -O3 -o clen src/clen.c`
 
 ### 2. Move to bins
 `install -m 755 clen /usr/local/bin/clen`
