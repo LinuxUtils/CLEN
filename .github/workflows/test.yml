@@ -82,7 +82,6 @@ jobs:
           --count-bytes \
           --count-quotes \
           --count-cases \
-          --to-upper \
           test_input.txt > output.txt
         grep -q "Letters" output.txt
         grep -q "Numbers" output.txt
