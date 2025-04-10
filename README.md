@@ -5,7 +5,7 @@
 
 # Installation
 ### 1. Clone repository
-`git clone https://github.com/g7gg/CLEN.git`
+`git clone git@github.com:g7gg/CLEN.git`
 
 ### 2. Build
 `cd CLEN && gcc -O3 -o clen clen.c`
