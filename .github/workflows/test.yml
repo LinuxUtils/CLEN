@@ -18,7 +18,7 @@ jobs:
       run: sudo apt-get update && sudo apt-get install -y build-essential
 
     - name: Build CLEN
-      run: gcc -O3 -march=native -o clen clen.c
+      run: gcc -O3 -march=native -o clen src/clen.c
 
     - name: Prepare test files
       run: echo "Hello. Test123! 'Quoted sentence?'" > test_input.txt
