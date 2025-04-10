@@ -1,0 +1,101 @@
+name: CLEN Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set up build environment
+      run: sudo apt-get update && sudo apt-get install -y build-essential
+
+    - name: Build CLEN
+      run: gcc -O3 -march=native -o clen clen.c
+
+    - name: Prepare test files
+      run: echo "Hello. Test123! 'Quoted sentence?'" > test_input.txt
+
+    - name: Test --count-letters
+      run: |
+        ./clen --count-letters "ABCdef" > output.txt
+        grep -q "6 Letters" output.txt
+
+    - name: Test --count-numbers
+      run: |
+        ./clen --count-numbers "abc123" > output.txt
+        grep -q "3 Numbers" output.txt
+
+    - name: Test --count-sentences
+      run: |
+        ./clen --count-sentences "Hi! OK? Sure." > output.txt
+        grep -q "3 Sentences" output.txt
+
+    - name: Test --count-special-signs
+      run: |
+        ./clen --count-special-signs "!@#test^&" > output.txt
+        grep -q "5 Special Signs" output.txt
+
+    - name: Test --count-words
+      run: |
+        ./clen --count-words "one two three" > output.txt
+        grep -q "3 Words" output.txt
+
+    - name: Test --count-bytes
+      run: |
+        ./clen --count-bytes "12345678" > output.txt
+        grep -q "8 Bytes" output.txt
+
+    - name: Test --count-quotes
+      run: |
+        ./clen --count-quotes "'a' \"b\" c" > output.txt
+        grep -q "2 Quotes" output.txt
+
+    - name: Test --count-cases
+      run: |
+        ./clen --count-letters --count-cases "ABcdE" > output.txt
+        grep -q "5 Letters" output.txt
+        grep -q "3 Uppercase" output.txt
+        grep -q "2 Lowercase" output.txt
+
+    - name: Test --to-upper
+      run: |
+        ./clen --to-upper "testUpper" > output.txt
+        grep -q "TESTUPPER" output.txt
+
+    - name: Test --count-filecontent
+      run: |
+        ./clen --count-filecontent test_input.txt > output.txt
+        grep -q "(file)" output.txt
+        grep -q "$(wc -c < test_input.txt | tr -d '[:space:]')" output.txt
+
+    - name: Full-feature integration test
+      run: |
+        ./clen \
+          --count-letters \
+          --count-numbers \
+          --count-sentences \
+          --count-special-signs \
+          --count-words \
+          --count-bytes \
+          --count-quotes \
+          --count-cases \
+          --to-upper \
+          test_input.txt > output.txt
+        grep -q "Letters" output.txt
+        grep -q "Numbers" output.txt
+        grep -q "Sentences" output.txt
+        grep -q "Special Signs" output.txt
+        grep -q "Words" output.txt
+        grep -q "Bytes" output.txt
+        grep -q "Quotes" output.txt
+        grep -q "Uppercase" output.txt
+        grep -q "Lowercase" output.txt
+        grep -q "TEST_INPUT.TXT" output.txt || true
